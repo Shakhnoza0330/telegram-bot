@@ -7,14 +7,19 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+import os
 import json
 
+# ✅ Актуальный токен от BotFather
 TOKEN = '7869459968:AAE76IWfhUHUlO-t_lKJCmehMe8uiXrQZpw'
 
+# ✅ Подключение к Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+creds_info = json.loads(os.environ['GOOGLE_CREDS_JSON'])
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_info, scope)
 client = gspread.authorize(creds)
 
+# ✅ Настройка бота
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
@@ -213,6 +218,20 @@ async def handle_confirmation(callback_query: types.CallbackQuery):
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
